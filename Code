@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sito di Preparazione Esame di Stato</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .gray-box {
+            background-color: #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .option-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .subject-description {
+            display: none;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            text-align: left;
+        }
+        .subject-description p {
+            margin: 0;
+        }
+        .subject-link {
+            display: inline-block;
+            margin: 10px;
+            font-size: 16px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sito di Preparazione Esame di Stato</h1>
+        <!-- Schermata di selezione dell'istituto -->
+        <div id="school-selection">
+            <div class="gray-box">
+                <p>Di che istituto sei?</p>
+                <button class="option-button" onclick="showSubjects('Liceo Classico')">Liceo Classico</button>
+                <button class="option-button" onclick="showSubjects('Liceo Scientifico')">Liceo Scientifico</button>
+                <button class="option-button" onclick="showSubjects('Altro')">Altro</button>
+            </div>
+        </div>
+
+        <!-- Schermata delle materie del Liceo Scientifico (invisibile finché non viene scelta l'opzione corrispondente) -->
+        <div id="subjects-container" style="display: none;">
+            <div class="gray-box">
+                <p>Clicca su "Genera Documento" per ottenere il documento.</p>
+                <button class="option-button" onclick="generateDocument()">Genera Documento</button>
+            </div>
+            <!-- Immagine di prova (sostituisci con il percorso dell'immagine desiderata) -->
+            <img id="document-image" src="" alt="Immagine di prova" style="max-width: 300px; margin-bottom: 20px; display: none;">
+            <!-- Collegamenti alle materie -->
+            <div id="subject-links"></div>
+            <!-- Descrizioni delle materie -->
+            <div id="subject-descriptions">
+                <div class="subject-description" id="italiano">
+                    <p>Analisi letteraria e interpretazione dei simboli e delle emozioni evocate nel dipinto.</p>
+                </div>
+                <div class="subject-description" id="matematica">
+                    <p>Studio delle stelle e dei fenomeni astronomici, interpretazione artistica delle leggi fisiche.</p>
+                </div>
+                <div class="subject-description" id="storia">
+                    <p>Contesto storico e culturale del XIX secolo, influenze dell'arte sull'epoca.</p>
+                </div>
+                <div class="subject-description" id="geografia">
+                    <p>Studio delle posizioni geografiche e dei paesaggi naturali, connessione tra arte e natura.</p>
+                </div>
+                <div class="subject-description" id="scienze">
+                    <p>Studio delle leggi naturali e dei fenomeni scientifici, interpretazione delle immagini astronomiche.</p>
+                </div>
+                <div class="subject-description" id="inglese">
+                    <p>Studio delle opere d'arte e della cultura europea nel contesto internazionale.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funzione per mostrare le materie del Liceo Scientifico
+        function showSubjects(institute) {
+            if (institute === 'Liceo Scientifico') {
+                document.getElementById('school-selection').style.display = 'none'; // Nasconde la schermata di selezione dell'istituto
+                document.getElementById('subjects-container').style.display = 'block'; // Mostra la schermata delle materie
+            } else {
+                alert('Altre istituzioni non sono supportate in questa versione.');
+            }
+        }
+
+        // Funzione per generare i collegamenti alle materie
+        function generateSubjectLinks() {
+            let subjects = ['Italiano', 'Matematica', 'Storia', 'Geografia', 'Scienze', 'Inglese'];
+            let linkContainer = document.getElementById('subject-links');
+            subjects.forEach(subject => {
+                let link = document.createElement('a');
+                link.href = '#';
+                link.textContent = subject;
+                link.className = 'subject-link';
+                link.onclick = function() {
+                    showSubjectDescription(subject);
+                };
+                linkContainer.appendChild(link);
+            });
+        }
+
+        // Funzione per visualizzare la descrizione della materia
+        function showSubjectDescription(subject) {
+            let descriptions = document.querySelectorAll('.subject-description');
+            descriptions.forEach(description => {
+                description.style.display = 'none';
+            });
+            let selectedDescription = document.getElementById(subject.toLowerCase());
+            if (selectedDescription) {
+                selectedDescription.style.display = 'block';
+            }
+        }
+
+        // Funzione per generare il documento
+        function generateDocument() {
+            // Visualizza l'immagine (sostituisci "nome-immagine.jpg" con il percorso dell'immagine desiderata)
+            document.getElementById('document-image').src = 'nottestellata.jpg';
+            document.getElementById('document-image').style.display = 'block';
+            
+            // Genera i collegamenti alle materie
+            generateSubjectLinks();
+        }
+    </script>
+</body>
+</html>
