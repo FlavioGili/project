@@ -15,18 +15,18 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            text-align: center;
         }
         h1 {
+            text-align: center;
             color: #333;
         }
-        .gray-box {
-            background-color: #ccc;
-            padding: 20px;
-            border-radius: 10px;
+        .subject-menu {
+            display: flex;
+            justify-content: center;
             margin-bottom: 20px;
         }
-        .option-button {
+        .subject-menu button {
+            margin: 0 10px;
             padding: 10px 20px;
             font-size: 16px;
             border: none;
@@ -34,123 +34,74 @@
             background-color: #007bff;
             color: #fff;
             cursor: pointer;
-            margin: 10px;
         }
-        .subject-description {
-            display: none;
+        .document-container {
             background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .document {
+            margin-bottom: 10px;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            padding: 10px;
-            margin-top: 10px;
-            text-align: left;
-        }
-        .subject-description p {
-            margin: 0;
-        }
-        .subject-link {
-            display: inline-block;
-            margin: 10px;
-            font-size: 16px;
-            color: #007bff;
-            text-decoration: none;
+            background-color: #f9f9f9;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Sito di Preparazione Esame di Stato</h1>
-        <!-- Schermata di selezione dell'istituto -->
-        <div id="school-selection">
-            <div class="gray-box">
-                <p>Di che istituto sei?</p>
-                <button class="option-button" onclick="showSubjects('Liceo Classico')">Liceo Classico</button>
-                <button class="option-button" onclick="showSubjects('Liceo Scientifico')">Liceo Scientifico</button>
-                <button class="option-button" onclick="showSubjects('Altro')">Altro</button>
-            </div>
+        
+        <!-- Menu delle materie -->
+        <div class="subject-menu">
+            <button onclick="selectSubject('Italiano')">Italiano</button>
+            <button onclick="selectSubject('Matematica')">Matematica</button>
+            <button onclick="selectSubject('Storia')">Storia</button>
+            <!-- Aggiungi altri pulsanti per le altre materie -->
         </div>
-
-        <!-- Schermata delle materie del Liceo Scientifico (invisibile finché non viene scelta l'opzione corrispondente) -->
-        <div id="subjects-container" style="display: none;">
-            <div class="gray-box">
-                <p>Clicca su "Genera Documento" per ottenere il documento.</p>
-                <button class="option-button" onclick="generateDocument()">Genera Documento</button>
-            </div>
-            <!-- Immagine di prova (sostituisci con il percorso dell'immagine desiderata) -->
-            <img id="document-image" src="" alt="Immagine di prova" style="max-width: 300px; margin-bottom: 20px; display: none;">
-            <!-- Collegamenti alle materie -->
-            <div id="subject-links"></div>
-            <!-- Descrizioni delle materie -->
-            <div id="subject-descriptions">
-                <div class="subject-description" id="italiano">
-                    <p>Analisi letteraria e interpretazione dei simboli e delle emozioni evocate nel dipinto.</p>
-                </div>
-                <div class="subject-description" id="matematica">
-                    <p>Studio delle stelle e dei fenomeni astronomici, interpretazione artistica delle leggi fisiche.</p>
-                </div>
-                <div class="subject-description" id="storia">
-                    <p>Contesto storico e culturale del XIX secolo, influenze dell'arte sull'epoca.</p>
-                </div>
-                <div class="subject-description" id="geografia">
-                    <p>Studio delle posizioni geografiche e dei paesaggi naturali, connessione tra arte e natura.</p>
-                </div>
-                <div class="subject-description" id="scienze">
-                    <p>Studio delle leggi naturali e dei fenomeni scientifici, interpretazione delle immagini astronomiche.</p>
-                </div>
-                <div class="subject-description" id="inglese">
-                    <p>Studio delle opere d'arte e della cultura europea nel contesto internazionale.</p>
-                </div>
-            </div>
+        
+        <!-- Area per visualizzare i documenti -->
+        <div class="document-container" id="document-container">
+            <p>Seleziona una materia per visualizzare i documenti.</p>
         </div>
     </div>
 
     <script>
-        // Funzione per mostrare le materie del Liceo Scientifico
-        function showSubjects(institute) {
-            if (institute === 'Liceo Scientifico') {
-                document.getElementById('school-selection').style.display = 'none'; // Nasconde la schermata di selezione dell'istituto
-                document.getElementById('subjects-container').style.display = 'block'; // Mostra la schermata delle materie
+        // Funzione per gestire la selezione della materia
+        function selectSubject(subject) {
+            // Simulazione di caricamento dei documenti (sostituisci con la tua logica)
+            let documents = getDocumentsBySubject(subject);
+
+            // Visualizza i documenti nella pagina
+            let documentContainer = document.getElementById('document-container');
+            documentContainer.innerHTML = '';
+            if (documents.length > 0) {
+                documents.forEach(document => {
+                    let documentElement = document.createElement('div');
+                    documentElement.classList.add('document');
+                    documentElement.textContent = document;
+                    documentContainer.appendChild(documentElement);
+                });
             } else {
-                alert('Altre istituzioni non sono supportate in questa versione.');
+                documentContainer.innerHTML = '<p>Nessun documento disponibile per questa materia.</p>';
             }
         }
 
-        // Funzione per generare i collegamenti alle materie
-        function generateSubjectLinks() {
-            let subjects = ['Italiano', 'Matematica', 'Storia', 'Geografia', 'Scienze', 'Inglese'];
-            let linkContainer = document.getElementById('subject-links');
-            subjects.forEach(subject => {
-                let link = document.createElement('a');
-                link.href = '#';
-                link.textContent = subject;
-                link.className = 'subject-link';
-                link.onclick = function() {
-                    showSubjectDescription(subject);
-                };
-                linkContainer.appendChild(link);
-            });
-        }
-
-        // Funzione per visualizzare la descrizione della materia
-        function showSubjectDescription(subject) {
-            let descriptions = document.querySelectorAll('.subject-description');
-            descriptions.forEach(description => {
-                description.style.display = 'none';
-            });
-            let selectedDescription = document.getElementById(subject.toLowerCase());
-            if (selectedDescription) {
-                selectedDescription.style.display = 'block';
+        // Funzione di esempio per ottenere i documenti in base alla materia (sostituisci con la tua logica)
+        function getDocumentsBySubject(subject) {
+            // Simulazione di dati di esempio
+            switch (subject) {
+                case 'Italiano':
+                    return ['Documento 1', 'Documento 2', 'Documento 3'];
+                case 'Matematica':
+                    return ['Documento 4', 'Documento 5'];
+                case 'Storia':
+                    return ['Documento 6'];
+                default:
+                    return [];
             }
-        }
-
-        // Funzione per generare il documento
-        function generateDocument() {
-            // Visualizza l'immagine (sostituisci "nome-immagine.jpg" con il percorso dell'immagine desiderata)
-            document.getElementById('document-image').src = 'nottestellata.jpg';
-            document.getElementById('document-image').style.display = 'block';
-            
-            // Genera i collegamenti alle materie
-            generateSubjectLinks();
         }
     </script>
 </body>
